@@ -1,0 +1,5 @@
+(executable
+ (public_name cps_parser)
+ (name main)
+ (flags :standard -warn-error "-unused-value-declaration")
+ (libraries cps_parser))

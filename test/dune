@@ -1,0 +1,3 @@
+(test
+ (name cps_parser)
+ (libraries alcotest cps_parser))
