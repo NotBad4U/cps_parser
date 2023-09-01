@@ -17,14 +17,7 @@ let reduce f l =
   folder (List.hd l) (cut l)
 (* curieux ... on n'applique pas la tête*)
 
-let flatmap o f =
-  match o with
-  | Some x ->
-    print_newline ();
-    print_int x;
-    f x
-  | None -> None
-
+let flatmap o f = match o with Some x -> f x | None -> None
 let seq rs = reduce (fun cur r i -> flatmap (cur i) r) rs
 let ( <?> ) o a = match o with Some x -> Some x | None -> a
 let rule _nt alts = reduce (fun cur alt i -> cur i <?> alt i) alts

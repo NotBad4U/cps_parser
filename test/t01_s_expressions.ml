@@ -12,26 +12,17 @@ let s_rule input =
           terminal input "s"
         ] )
 
-let recognize_010 () =
-  let result = s_rule "s" 0 in
-  let expected = Some 1 in
+let test input () =
+  let result = s_rule input 0 in
+  let expected = Some (String.length input) in
   Alcotest.(check (option int)) "s" result expected
 
-let recognize_020 () =
-  let result = s_rule "as" 0 in
-  let expected = Some 2 in
-  Alcotest.(check (option int)) "as" result expected
-
-let recognize_030 () =
-  let result = s_rule "asb" 0 in
-  let expected = Some 3 in
-  Alcotest.(check (option int)) "asb" result expected
+let test_case s = Alcotest.(test_case s `Quick (test s))
 
 let cases =
-  Alcotest.
-    ( "S ::= aSb|aS|s"
-    , [
-        test_case "s" `Quick recognize_010
-      ; test_case "as" `Quick recognize_020
-      ; test_case "asb" `Quick recognize_030
-      ] )
+  ( "S ::= aSb|aS|s"
+  , [ test_case "s"
+  ; test_case "as"
+  ; test_case "asb"
+  ; test_case "aaas"
+  ; test_case "aaasb" ] )
