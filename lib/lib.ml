@@ -22,6 +22,4 @@ let rule _nt alts =
   let ( <|> ) o a = match o with Some x -> Some x | None -> a in
   reduce (fun cur alt i -> cur i <|> alt i) alts
 
-let fix f =
-  let rec p () = f (fun t -> p () t) in
-  p ()
+let rec fix f s = f (fix f) s
