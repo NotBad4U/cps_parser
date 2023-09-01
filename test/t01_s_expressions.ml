@@ -15,7 +15,7 @@ let s_rule input =
 let test input () =
   let result = s_rule input 0 in
   let expected = Some (String.length input) in
-  Alcotest.(check (option int)) "s" result expected
+  Alcotest.(check (option int)) input result expected
 
 let test_case s = Alcotest.(test_case s `Quick (test s))
 
