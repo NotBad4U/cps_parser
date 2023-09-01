@@ -8,19 +8,19 @@ let terminal input t i =
   else failure
 
 let epsilon i = success i
-let cut = function [] -> [] | _ :: xs -> xs
 
 let reduce f l =
-  let rec folder acc l2 =
-    match l2 with [] -> acc | n :: ns -> folder (f acc n) ns
-  in
+  let cut = function [] -> [] | _ :: xs -> xs in
+  let rec folder acc = function [] -> acc | n :: ns -> folder (f acc n) ns in
   folder (List.hd l) (cut l)
-(* curieux ... on n'applique pas la tête*)
 
-let flatmap o f = match o with Some x -> f x | None -> None
-let seq rs = reduce (fun cur r i -> flatmap (cur i) r) rs
-let ( <?> ) o a = match o with Some x -> Some x | None -> a
-let rule _nt alts = reduce (fun cur alt i -> cur i <?> alt i) alts
+let seq rs =
+  let open Preface.Option.Monad.Infix in
+  reduce (fun cur r i -> cur i >>= r) rs
+
+let rule _nt alts =
+  let ( <|> ) o a = match o with Some x -> Some x | None -> a in
+  reduce (fun cur alt i -> cur i <|> alt i) alts
 
 let fix f =
   let rec p () = f (fun t -> p () t) in
