@@ -2,7 +2,7 @@ let success t = Some t
 let failure = None
 
 let terminal input t i =
-  if String.starts_with ~prefix:t (String.sub input i (String.length input))
+  if String.starts_with ~prefix:t (String.sub input i (String.length t))
   then success (i + String.length t)
   else failure
 
